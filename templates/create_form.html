@@ -22,7 +22,7 @@
         <!-- Colonne droite -->
         
         <div class="col-5 text-white d-flex align-items-center">
-                  <form class="form-container" action="/form/create" method="post" id="formulaire">  </form>
+                  <form class="form-container" action="/create/form/" method="post" id="formulaire">{% csrf_token %}  </form>
         </div>
         
         <div class="col-5 text-white d-flex align-items-center">
