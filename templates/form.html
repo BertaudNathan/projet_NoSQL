@@ -1,22 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-{% include 'include/master.html' with title="Bienvenue" %}
+
+
 <body style class>
+{% include 'include/master.html' with title=form.title %}
 
 
-<form class="form-container" action="/form/create" method="post">
-    
-    
-    
-    
-</form>
+<div class="container" style="padding-top: 90px;margin: 0;padding: 0;width: 100%;">
+    <div class="container-fluid vh-100">
+        <div class="row h-100">
+            <div class="col-1 bg-primary align-items-center justify-content-center border-end" style="box-sizing:revert">
+            <div class="btn-group-vertical">
+                  <button class="btn btn-secondary add_question mb-2 align-left" type="submit" form="formulaire">Valider</button>
+            </div>
+        </div>
+            <div class="col-5 text-white align-items-center m-3">
+            <form class="form-container" action="/answer/{{uuid}}" method="post" id="formulaire">{% csrf_token %}
+                {% for key,value in form.DictQuestion.items %}
+                    <div id="question{{ forloop.counter }}" class="form-group"><label for="Question">{{ key }}</label>
+                        {% if value == None %}
+                            <input form="formulaire" placeholder="réponse" type="text"
+                                   class="form-control" id="question" name="reponse{{ forloop.parentloop.counter }}">
+                        {% else %}
+                            <div class="btn-group-vertical" role="toolbar" aria-label="Toolbar with button groups">
+                            {% for rep in value %}
+                                <input type="radio" class="btn-check" name="reponse{{ forloop.parentloop.counter }}" id="btnradio{{ forloop.parentloop.counter}}e{{ forloop.counter}}" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="btnradio{{ forloop.parentloop.counter }}e{{ forloop.counter}}">{{ rep }}</label>
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-<button class="add_question">
-    Ajouter une question
-</button>
 
+{% include 'include/footer.html' %}
 </body>
 
-{% include 'include/footer.html'%}
 
 </html>

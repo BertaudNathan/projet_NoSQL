@@ -5,18 +5,35 @@
     <title> {{ page_title }}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'icon/icon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+
 </head>
 
 
 <body>
 
-<div class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
+<div class="navbar navbar-expand-lg fixed-top bg-primary" style="position: revert" data-bs-theme="dark">
       <div class="container">
         <a href="/" class="navbar-brand">Formulaires</a>
           
       </div>
     </div>
 
+ {% if info != None %}
+    <div onload="" class="alert alert-info position-absolute bottom-0 end-0"  id="info-alert" role="alert">
+        {{ info }}
+    </div>
+
+
+{% elif error != None %}
+    <div class="alert alert-danger position-absolute bottom-0 end-0" id="error-alert" role="alert">
+        {{ error }}
+    </div>
+    
+ {% elif success != None %}
+    <div class="alert alert-success position-absolute bottom-0 end-0" id="success-alert" role="alert">
+        {{ success }}
+    </div>  
+{% endif %}
 
 
 </body>

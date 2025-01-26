@@ -24,5 +24,6 @@ urlpatterns = [
     path('home', views.home, name='home'),
 path('', views.home, name='home'),
 path('create/form/', views.create_form, name='form'),
-    path('form/<str:uuid>', views.form, name='form')
+path('answer/<str:uuid>', views.answer_form, name='answer'),
+path('form/<str:uuid>', views.form, name='answer')
 ]

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -13,7 +14,7 @@
     <div class="container-fluid vh-100">
     <div class="row h-100">
         <!-- Colonne gauche -->
-        <div class="col-1 bg-primary d-flex align-items-center justify-content-center border-end">
+        <div class="col-1 bg-primary align-items-center justify-content-center border-end" style="box-sizing:revert">
             <div class="btn-group-vertical">
                   <button class="btn btn-secondary add_question mb-2 align-left">Ajouter une question</button>
                 <button class="btn btn-secondary add_question_multiple align-left">Ajouter une question a choix multiple</button>
@@ -21,11 +22,11 @@
         </div>
         <!-- Colonne droite -->
         
-        <div class="col-5 text-white d-flex align-items-center">
+        <div class="col-5 text-white align-items-center m-3">
                   <form class="form-container" action="/create/form/" method="post" id="formulaire">{% csrf_token %}  </form>
         </div>
         
-        <div class="col-5 text-white d-flex align-items-center">
+        <div class="col-5 text-white align-items-center ml-3">
             
                 <div class="mb-3">
                     <label for="form_title" class="form-label">Titre du formulaire</label>
@@ -34,6 +35,10 @@
                 <div class="mb-3">
                     <label for="form_description" class="form-label">Description du formulaire</label>
                     <textarea form="formulaire"  class="form-control" id="form_description" name="form_description" rows="3" required></textarea>
+                </div>
+            <div class="mb-3">
+                    <label for="form_password" class="form-label">mot de passe du formulaire</label>
+                    <input type="password" form="formulaire"  class="form-control" id="form_password" name="form_password"required>
                 </div>
                 <button form="formulaire" type="submit" class="btn btn-primary">Créer le formulaire</button>
         </div>
@@ -44,6 +49,7 @@
 
 
 {% include 'include/footer.html'%}
+<script src="{% static 'js/add_form_block.js' %}"></script>
 </body>
 
 
