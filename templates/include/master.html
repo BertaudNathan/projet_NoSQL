@@ -5,6 +5,8 @@
     <title> {{ page_title }}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'icon/icon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 
 </head>
 
@@ -14,6 +16,11 @@
 <div class="navbar navbar-expand-lg fixed-top bg-primary" style="position: revert" data-bs-theme="dark">
       <div class="container">
         <a href="/" class="navbar-brand">Formulaires</a>
+          <a href="/create/form/">
+            <button class="btn btn-secondary add_question mb-2 align-left" type="submit" form="formulaire">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+          </a>
           
       </div>
     </div>

@@ -2,15 +2,15 @@ from ProjetFinalnosql.model.AnswerModel import AnswerModel
 
 
 class FormModel:
-    def __init__(self, objectId, DictQuestion, title, description, password):
-        self.objectId = objectId
+    def __init__(self, Questions, title, description, password):
         self.title = title
         self.description = description
         self.password = password
-        self.DictQuestion = DictQuestion
+        self.Questions = Questions
 
     def canEdit(self, password):
         return self.password == password
 
-    def AnswerForm(self, DictAnswer):
-        return AnswerModel(self.objectId, DictAnswer)
+    def __str__(self):
+        q = [q.__str__() for q in self.Questions]
+        return "FormModel(title={},description={},password={},Questions={})".format(self.title,self.description,self.password,q)

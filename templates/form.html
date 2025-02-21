@@ -16,15 +16,15 @@
         </div>
             <div class="col-5 text-white align-items-center m-3">
             <form class="form-container" action="/answer/{{uuid}}" method="post" id="formulaire">{% csrf_token %}
-                {% for key,value in form.DictQuestion.items %}
-                    <div id="question{{ forloop.counter }}" class="form-group"><label for="Question">{{ key }}</label>
-                        {% if value == None %}
+                {% for value in form.Questions %}
+                    <div id="question{{ forloop.counter }}" class="form-group"><label for="Question">{{ value.intitule }}</label>
+                        {% if value.type == "unique" %}
                             <input form="formulaire" placeholder="réponse" type="text"
-                                   class="form-control" id="question" name="reponse{{ forloop.parentloop.counter }}">
+                                   class="form-control" id="question" name="{{ value.id }}">
                         {% else %}
                             <div class="btn-group-vertical" role="toolbar" aria-label="Toolbar with button groups">
-                            {% for rep in value %}
-                                <input type="radio" class="btn-check" name="reponse{{ forloop.parentloop.counter }}" id="btnradio{{ forloop.parentloop.counter}}e{{ forloop.counter}}" autocomplete="off" checked>
+                            {% for rep in value.reponses %}
+                                <input type="radio" value="{{ rep }}" class="btn-check" name="{{ value.id }}" id="btnradio{{ forloop.parentloop.counter}}e{{ forloop.counter}}" autocomplete="off" checked>
                                 <label class="btn btn-outline-primary" for="btnradio{{ forloop.parentloop.counter }}e{{ forloop.counter}}">{{ rep }}</label>
                             {% endfor %}
                             </div>

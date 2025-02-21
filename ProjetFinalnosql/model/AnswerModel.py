@@ -1,8 +1,8 @@
 class AnswerModel:
 
-    def __init__(self,FormId, DictAnswer):
+    def __init__(self,FormId, ListAnswer):
         self.FormId = FormId
-        self.DictAnswer = DictAnswer
+        self.ListAnswer = ListAnswer
 
 
 

@@ -2,21 +2,59 @@
 <html lang="en">
 {% include 'include/master.html' %}
 <body>
+<div class="container m-4">
+    <div class="row row-cols-1 row-cols-md-2
+                    row-cols-lg-3 g-4">
+        {% for value in forms %}
+            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">
 
-<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-  <div class="card-header">Header</div>
-  <div class="card-body">
-    <h4 class="card-title">Primary card title</h4>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
+                    <p>{{ value.nom }}</p>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pwModal">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+
+
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ value.description }}</p>
+                    <a href="/form/{{ value.id }}" class="btn btn-primary">Repondre</a>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+
+            </div>
+
+            <div class="modal fade" id="pwModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="display: flex; justify-content: space-between;">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="update/form/{{ value.id }}">{% csrf_token %}
+                            <div class="modal-body">
+
+                                <label for="pw">Password</label>
+                                <input type="password" name="password" id="pw">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
-<div class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
-  <div class="card-header">Header</div>
-  <div class="card-body">
-    <h4 class="card-title">Secondary card title</h4>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div>
+
 
 {% include 'include/footer.html' %}
 </body>

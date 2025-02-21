@@ -24,6 +24,8 @@ urlpatterns = [
     path('home', views.home, name='home'),
 path('', views.home, name='home'),
 path('create/form/', views.create_form, name='form'),
+path('update/form/<str:uuid>', views.form_as_admin, name='form'),
+path('updateValidate/form/<str:uuid>', views.update, name='form'),
 path('answer/<str:uuid>', views.answer_form, name='answer'),
 path('form/<str:uuid>', views.form, name='answer')
 ]
