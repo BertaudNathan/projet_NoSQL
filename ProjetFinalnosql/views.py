@@ -50,7 +50,7 @@ def form(request,uuid):
     Questions = []
     for question in dictForm["Questions"]:
         Questions.append(QuestionModel(question["_id"],question["intitule"],question["type"],question["reponses"] if question["type"] == "multiple" else None))
-    form = FormModel(Questions,dictForm["nom"],dictForm["description"],dictForm["password"])
+    form = FormModel(uuid, Questions,dictForm["nom"],dictForm["description"],dictForm["password"])
     print(form)
     return render(request, 'form.html', {"page_title": "Answer a form", "form": form, "uuid": uuid})
 
@@ -100,11 +100,11 @@ def form_as_admin(request,uuid):
         for question in dictForm["Questions"]:
             Questions.append(QuestionModel(question["_id"], question["intitule"], question["type"],
                                            question["reponses"] if question["type"] == "multiple" else None))
-        form = FormModel(Questions, dictForm["nom"], dictForm["description"], dictForm["password"].strip())
+        form = FormModel(uuid,Questions, dictForm["nom"], dictForm["description"], dictForm["password"].strip())
         print(form_data)
         print(dictForm["password"])
         if form_data["password"].strip() == form.password:
-            return render(request, 'formUpdate.html', {"page_title": "Update a form", "form": form})
+            return render(request, 'update_form.html', {"page_title": "Update a form", "form": form})
         else:
             request.session['error'] = 'The password is invalid.'
             return redirect('/home')
@@ -147,5 +147,37 @@ def answer_form(request,uuid):
         return redirect('/home', {"page_title": "Home"})
 
 
-def update(request):
-    return None
+def update(request,uuid):
+    if request.method == 'POST':
+        if uuid is None:
+            return render(request, '404.html', {"page_title": "This page does not exist."}, status=404)
+        form_data = request.POST
+        print(form_data)
+        dictValidate = {}
+        reponses = []
+        db = MongoClient().get_database("base_formulaires")
+        collection = db["Reponses"]
+        dictForm = {
+            key: form_data.getlist(key) if len(form_data.getlist(key)) > 1 else form_data.get(key)
+            for key in form_data.keys()
+        }
+        dictForm.pop("csrfmiddlewaretoken")
+
+        for key, value in dictForm.items():
+
+            if db["Formulaires"].find_one({"Questions._id": ObjectId(key)}):
+                reponses.append({"question_id": key, "reponse": value.strip()})
+        dictValidate["formulaire_id"] = uuid
+        try:
+            print(reponses)
+            collection.insert_one({"sondage_id": uuid, "reponses": reponses})
+            # print(dictValidate)
+            request.session['success'] = 'Your answer was registed.'
+            return redirect('/home', )
+        except Exception as e:
+            print("Erreur lors de l'insertion dans MongoDB:", e)
+            return HttpResponse("Erreur lors de l'insertion des données.", status=500)
+    elif request.method == 'GET':
+        if uuid is not None:
+            return redirect('/form/' + uuid, {"page_title": "Home"})
+        return redirect('/home', {"page_title": "Home"})

@@ -12,6 +12,11 @@ function add_question(){
 }
 
 
+function setCompteur(value){
+    compteur = value;
+    console.log(compteur);
+}
+
 function supprimer_question(id){
     $("#"+id+'').remove();
     compteur--;

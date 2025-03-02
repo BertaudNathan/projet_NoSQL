@@ -2,7 +2,8 @@ from ProjetFinalnosql.model.AnswerModel import AnswerModel
 
 
 class FormModel:
-    def __init__(self, Questions, title, description, password):
+    def __init__(self,id, Questions, title, description, password):
+        self.id = id
         self.title = title
         self.description = description
         self.password = password

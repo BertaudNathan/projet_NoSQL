@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+{% include 'include/master.html' with title="Bienvenue" %}
+
+
+<div class="container" style="padding-top: 90px;margin: 0;padding: 0;width: 100%;">
+    <div class="container-fluid vh-100">
+        <div class="row h-100">
+            <!-- Colonne gauche -->
+            <div class="col-1 bg-primary align-items-center justify-content-center border-end"
+                 style="box-sizing:revert">
+                <div class="btn-group-vertical">
+                    <button class="btn btn-secondary add_question mb-2 align-left">Ajouter une question</button>
+                    <button class="btn btn-secondary add_question_multiple align-left">Ajouter une question a choix
+                        multiple
+                    </button>
+                </div>
+            </div>
+            <!-- Colonne droite -->
+
+            <div class="col-5 text-white align-items-center m-3">
+                <form class="form-container" action="/updateValidate/form/{{ form.id }}" method="post"
+                      id="formulaire">{% csrf_token %}
+
+                    {% for i in form.Questions %}
+
+                        {% if i.type == "unique" %}
+
+                            <div id="{{ forloop.counter }}" class="form-group">
+                                <label for="Question">Question - Réponse ouverte - {{ forloop.counter }}</label>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="supprimer_question('{{ forloop.counter }}')">X
+                                </button>
+                                <input form="formulaire" value="{{ i.intitule }}"
+                                       placeholder="Renseignez l'intitulé de la question" type="text"
+                                       class="form-control" id="question" name="question{{ forloop.counter }}[]">
+                            </div>
+
+                        {% elif i.type == "multiple" %}
+                            <div id="{{ forloop.counter }}" class="form-group">
+                                <label for="Question">Question - Choix multiple - {{ forloop.counter }}</label>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="supprimer_question('{{ forloop.counter }}')">X
+                                </button>
+                                <button type="button" class="btn btn-danger"
+                                        onclick="add_reponse_question_multiple({{ forloop.counter   }})">+</button>
+                                <input form="formulaire" placeholder="Renseignez l'intitulé de la question" type="text" value="{{ i.intitule }}"
+                                       class="form-control" id="{{ forloop.counter }}" name="questionMultiple{{ forloop.counter }}[]">
+
+                                <div class="form-group" id="container{{ forloop.counter }}">
+                                    <label for="reponse">Réponse</label>
+                                    {% for j in i.reponses %}
+                                    <input form="formulaire" placeholder="Renseignez la réponse" type="text"
+                                           class="form-control" id="reponse" value="{{ j }}" name="reponse{{parent.forloop.counter0}}[]">
+                                    {% endfor %}
+                                    
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+
+                    {% endfor %}
+                </form>
+            </div>
+
+            <div class=" col-5 text-white align-items-center ml-3">
+
+                <div class="mb-3">
+                    <label for="form_title" class="form-label">Titre du formulaire</label>
+                    <input form="formulaire" value="{{ form.title }}" type="text" class="form-control"
+                           id="form_title" name="form_title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="form_description" class="form-label">Description du formulaire</label>
+                    <textarea form="formulaire" class="form-control" id="form_description"
+                              name="form_description" rows="3" required>{{ form.description }}</textarea>
+                </div>
+                <button form="formulaire" type="submit" class="btn btn-primary">Modifier le formulaire</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% include 'include/footer.html' %}
+<script src="{% static 'js/add_form_block.js' %}"></script>
+<script>
+    setCompteur({{ form.Questions|length }} + 1);
+</script>
+
+</body>
+
+
+</html>
