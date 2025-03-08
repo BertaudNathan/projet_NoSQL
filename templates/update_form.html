@@ -54,7 +54,7 @@
                                     <label for="reponse">Réponse</label>
                                     {% for j in i.reponses %}
                                     <input form="formulaire" placeholder="Renseignez la réponse" type="text"
-                                           class="form-control" id="reponse" value="{{ j }}" name="reponse{{parent.forloop.counter0}}[]">
+                                           class="form-control" id="reponse" value="{{ j }}" name="reponse{{forloop.parentloop.counter}}[]">
                                     {% endfor %}
                                     
                                 </div>

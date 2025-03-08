@@ -4,7 +4,7 @@
 <body>
 <div class="container m-4">
     <div class="row row-cols-1 row-cols-md-2
-                    row-cols-lg-3 g-4">
+                    row-cols-lg-3 g-4 gap-3">
         {% for value in forms %}
             <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">
@@ -12,6 +12,9 @@
                     <p>{{ value.nom }}</p>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pwModal">
                         <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#DeleteModal">
+                        <i class="fa-solid fa-trash"></i>
                     </button>
 
 
@@ -31,7 +34,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="display: flex; justify-content: space-between;">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Modifier le formulaire</h5>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -39,13 +42,39 @@
                         <form method="post" action="update/form/{{ value.id }}">{% csrf_token %}
                             <div class="modal-body">
 
-                                <label for="pw">Password</label>
+                                <label for="pw">Mot de passe</label>
                                 <input type="password" name="password" id="pw">
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="display: flex; justify-content: space-between;">
+                            <h5 class="modal-title" id="exampleModalLabel">Supprimer le formulaire</h5>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="Delete/form/{{ value.id }}">{% csrf_token %}
+                            <div class="modal-body">
+
+                                <label for="pw">Mot de passe</label>
+                                <input type="password" name="password" id="pw">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Supprimer</button>
                             </div>
                         </form>
                     </div>
